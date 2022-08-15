@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+Index
+{% endblock page_title %}
+
+{% block content  %}
+    {% include 'challenges/partails/header.html' %}
+    <ul>
+    {% for month in months %}
+        <li><a href="{% url 'monthly-challenge' month %}">{{ month|title }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock  %}

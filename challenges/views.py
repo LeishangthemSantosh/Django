@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
@@ -17,18 +18,22 @@ monthly_challenge = {
     'september': 'Some Text for September',
     'october': 'Some Text for October',
     'november': 'Some Text for November',
-    'december': 'Some Text for December',
+    'december': None
 }
 def index(request):
     list_items = ""
     months = list(monthly_challenge.keys())
-    for month in months:
-        capitalized_month = month.capitalize()
-        month_path = reverse('monthly-challenge', args=[month])
-        list_items += f"<li><a href=\"{month_path}\">{capitalized_month}</a></li>"
 
-    response_data = f"<ul>{list_items}</ul>"
-    return HttpResponse(response_data)
+    return render(request, "challenges/index.html", {
+        "months": months
+    })
+    # for month in months:
+    #     capitalized_month = month.capitalize()
+    #     month_path = reverse('monthly-challenge', args=[month])
+    #     list_items += f"<li><a href=\"{month_path}\">{capitalized_month}</a></li>"
+
+    # response_data = f"<ul>{list_items}</ul>"
+    # return HttpResponse(response_data)
 
 def monthly_challenges_by_number(request, month):
     months = list(monthly_challenge.keys())
@@ -42,9 +47,14 @@ def monthly_challenges_by_number(request, month):
 def monthly_challenges(request, month):
     try:
         challenges_text = monthly_challenge[month]
+        return render(request, "challenges/challenges.html", 
+        {
+            "month_name": month.capitalize(),
+            "text": challenges_text
+        })
         # response_data = f"<h1>{challenges_text}</h1>"
-        response_data = render_to_string("challenges/challenges.html")
-        return HttpResponse(response_data)
+        # response_data = render_to_string("challenges/challenges.html")
+        # return HttpResponse(response_data)
     except:
         return HttpResponseNotFound("This Month is Invalid")
 
