@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block page_title %}
 Index
-{% endblock page_title %}
+{% endblock %}
+
+{% block css_files %}
+{% comment %} <link rel="stylesheet" href="{% static "challenges/challenges.css" %}"> {% endcomment %}
+<link rel="stylesheet" href="{% static "challenges/challenges.css" %}">
+{% endblock %}
 
 {% block content  %}
     {% include 'challenges/partails/header.html' %}
